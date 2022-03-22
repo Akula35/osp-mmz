@@ -32,7 +32,7 @@ app.get('/wydaj', (req, resp) => {
     var dzis = d.getDate() + "." +months[d.getMonth()] + "." + d.getFullYear();
     if(req.query.wydaj){
         for(var i=0; i < tabelaJ.length; i++){
-            if(tabelaJ[i].numer.endsWith(req.query.numer)){
+            if(tabelaJ[i].numer == req.query.numer){
                 if(req.query.obiad){
                     tabelaJ[i].obiad=dzis;
                 }
