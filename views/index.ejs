@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wydawanie pomocy</title>
+        <style>
+            body{
+                font-size: 35px;
+            }
+            td{
+                border: 1px solid black;
+            }
+            input.check{
+                width: 40px;
+                height: 40px
+            }
+            input.num{
+                font-size: 35px;
+            }
+            button{
+                font-size: 35px;
+            }
+            .tak{
+                background-color: lime;
+            }
+            .nie{
+                background-color: red;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            Witaj świecie. Dzisiaj jest <%= data%>
+        </header>
+        <article>
+            <form action="/wydaj" method="GET">
+                <input class="num" type="text" name="numer" placeholder="Podaj numer osoby" value="<%= numer%>"></textarea><br/><br/>
+                <input class="check" type="checkbox" name="obiad">Wydać obiad?
+                <input class="check" type="checkbox" name="zywnosc">Wydać żywność?<br/>
+                <input class="check" type="checkbox" name="chemia">Wydać chemię?
+                <input class="check" type="checkbox" name="inne">Wydać inne?<br/><br/>
+                <button type="submit" name="szukaj" value="on">Szukaj</button>
+                <button type="submit" name="wydaj" value="on">Wydaj</button>
+            </form>
+            <table>
+                <tr>
+                    <th>Numer</th>
+                    <th>Wydano obiad?</th>
+                    <th>Wydano żywność?</th>
+                    <th>Wydano chemię?</th>
+                    <th>Wydano inne?</th>
+                </tr>
+                <% for(var i=0; i<tabela.length; i++) {%>
+                    <tr>
+                        <td>UA/<%= tabela[i].numer %>/2022</td>
+                        <%if(data == tabela[i].obiad){%>
+                            <td class="tak">tak</td>
+                        <%}else{%>
+                            <td class="nie">nie</td>
+                        <%}%>
+                        <%if(data == tabela[i].zywnosc){%>
+                            <td class="tak">tak</td>
+                        <%}else{%>
+                            <td class="nie">nie</td>
+                        <%}%>
+                        <%if(data == tabela[i].chemia){%>
+                            <td class="tak">tak</td>
+                        <%}else{%>
+                            <td class="nie">nie</td>
+                        <%}%>
+                        <%if(data == tabela[i].inne){%>
+                            <td class="tak">tak</td>
+                        <%}else{%>
+                            <td class="nie">nie</td>
+                        <%}%>
+                    </tr>
+                <% } %>
+            </table>
+        </article>
+        <footer>
+            System dla Ochotniczej Straży Pożarnej. Autor: Kamil Wojciechowski
+        </footer>
+    </body>
+</html>
