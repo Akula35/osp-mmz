@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Wydawanie pomocy</title>
+        <title>Pomoc humanitarna</title>
         <style>
             body{
                 font-size: 35px;
@@ -26,16 +26,20 @@
                 background-color: red;
                 color: white;
             }
+            .wczoraj{
+                background-color: orange;
+            }
         </style>
     </head>
     <body>
         <header>
-            Wydawanie pomocy dla uchodźców z Ukrainy. Dzisiaj jest <%= data%>
+            <h2>System weryfikacji pomocy humanitarnej dla uchodźców.</h2>
+            Dzisiaj jest <%= data%>
         </header>
         <article>
             <form action="/wydaj" method="GET">
                 <input class="num" type="text" name="numer" placeholder="Podaj numer osoby" value="<%= numer%>"></textarea><br/>
-                Podczas aktualizacji należy podać pełny numer, np. 0035<br/>
+                Podczas wydawania należy podać pełny numer, np. 0035, 0007, 0492<br/>
                 <input class="check" type="checkbox" name="obiad">Wydać obiad?
                 <input class="check" type="checkbox" name="zywnosc">Wydać żywność?<br/>
                 <input class="check" type="checkbox" name="chemia">Wydać chemię?
@@ -54,32 +58,46 @@
                 <% for(var i=0; i<tabela.length; i++) {%>
                     <tr>
                         <td>UA/<%= tabela[i].numer %>/2022</td>
-                        <%if(data == tabela[i].obiad){%>
-                            <td class="tak">tak</td>
+                        <%if(dataT == tabela[i].obiad){%>
+                            <td class="tak">dzisiaj</td>
+                        <%}else{if(dataT == tabela[i].obiad+1){%>
+                            <td class="wczoraj">wczoraj</td>
                         <%}else{%>
                             <td class="nie">nie</td>
-                        <%}%>
-                        <%if(data == tabela[i].zywnosc){%>
-                            <td class="tak">tak</td>
-                        <%}else{%>
-                            <td class="nie">nie</td>
-                        <%}%>
-                        <%if(data == tabela[i].chemia){%>
-                            <td class="tak">tak</td>
-                        <%}else{%>
-                            <td class="nie">nie</td>
-                        <%}%>
-                        <%if(data == tabela[i].inne){%>
-                            <td class="tak">tak</td>
-                        <%}else{%>
-                            <td class="nie">nie</td>
-                        <%}%>
+                        <%}}%>
+                        <%if(dataT == tabela[i].zywnosc){%>
+                            <td class="tak">dzisiaj</td>
+                            <%}else{if(dataT == tabela[i].zywnosc+1){%>
+                                <td class="wczoraj">wczoraj</td>
+                            <%}else{%>
+                                <td class="nie">nie</td>
+                            <%}}%>
+                        <%if(dataT == tabela[i].chemia){%>
+                            <td class="tak">dzisiaj</td>
+                            <%}else{if(dataT == tabela[i].chemia+1){%>
+                                <td class="wczoraj">wczoraj</td>
+                            <%}else{%>
+                                <td class="nie">nie</td>
+                            <%}}%>
+                        <%if(dataT == tabela[i].inne){%>
+                            <td class="tak">dzisiaj</td>
+                            <%}else{if(dataT == tabela[i].inne+1){%>
+                                <td class="wczoraj">wczoraj</td>
+                            <%}else{%>
+                                <td class="nie">nie</td>
+                            <%}}%>
                     </tr>
                 <% } %>
             </table>
+            <div><h4>Podsumowanie</h4>
+                Wydane łącznie obiady: <%= raport[0]%><br/>
+                Wydana łącznie żywność: <%= raport[1]%><br/>
+                Wydana łącznie chemia: <%= raport[2]%><br/>
+                Wydane łącznie inne pomoce: <%= raport[3]%><br/>
+            </div>
         </article>
         <footer>
-            System dla Ochotniczej Straży Pożarnej. Autor: Kamil Wojciechowski
+           <br/> Autor: OSP Mińsk Mazowiecki, Kamil Wojciechowski
         </footer>
     </body>
 </html>
