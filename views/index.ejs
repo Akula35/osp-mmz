@@ -60,40 +60,44 @@
                 </tr>
                 <% for(var i=0; i<punkty.length; i++) {%>
                     <tr>
+                        <form action="/zapasy" method="GET">
                         <td><%= punkty[i].nazwa %></td>
-                        <%if(punkty[i].mleko){%>
-                            <td class="nie">Brakuje</td>
+                        <%if(punkty[i].mleko == "nie"){%>
+                            <td><input class="check" type="checkbox" name="mleko">W zapasie</td>
                         <%}else{%>
-                            <td class="tak">W zapasie</td>
+                            <td><input class="check" type="checkbox" name="mleko" checked>W zapasie</td>
                         <%}%>
-                        <%if(punkty[i].kasza){%>
-                            <td class="nie">Brakuje</td>
+                        <%if(punkty[i].kasza == "nie"){%>
+                            <td><input class="check" type="checkbox" name="kasza">W zapasie</td>
                         <%}else{%>
-                            <td class="tak">W zapasie</td>
+                            <td><input class="check" type="checkbox" name="kasza" checked>W zapasie</td>
                         <%}%>
-                        <%if(punkty[i].maka){%>
-                            <td class="nie">Brakuje</td>
+                        <%if(punkty[i].maka == "nie"){%>
+                            <td><input class="check" type="checkbox" name="maka">W zapasie</td>
                         <%}else{%>
-                            <td class="tak">W zapasie</td>
+                            <td><input class="check" type="checkbox" name="maka" checked>W zapasie</td>
                         <%}%>
-                        <%if(punkty[i].olej){%>
-                            <td class="nie">Brakuje</td>
+                        <%if(punkty[i].olej == "nie"){%>
+                            <td><input class="check" type="checkbox" name="olej">W zapasie</td>
                         <%}else{%>
-                            <td class="tak">W zapasie</td>
+                            <td><input class="check" type="checkbox" name="olej" checked>W zapasie</td>
                         <%}%>
-                        <%if(punkty[i].cukier){%>
-                            <td class="nie">Brakuje</td>
+                        <%if(punkty[i].cukier == "nie"){%>
+                            <td><input class="check" type="checkbox" name="cukier">W zapasie</td>
                         <%}else{%>
-                            <td class="tak">W zapasie</td>
+                            <td><input class="check" type="checkbox" name="cukier" checked>W zapasie</td>
                         <%}%>
-                        <%if(punkty[i].konserwy){%>
-                            <td class="nie">Brakuje</td>
+                        <%if(punkty[i].konserwy == "nie"){%>
+                            <td><input class="check" type="checkbox" name="konserwy">W zapasie</td>
                         <%}else{%>
-                            <td class="tak">W zapasie</td>
+                            <td><input class="check" type="checkbox" name="konserwy" checked>W zapasie</td>>
                         <%}%>
+                            <td><button type="submit" name="punkt" value="<%= punkty[i].nazwa%>">Zaktualizuj</button></td>
+                        </form>
                     </tr>
                 <% } %>
             </table>
+            
             <h4>Lista numerów uchodźców</h4>
             <table>
                 <tr>

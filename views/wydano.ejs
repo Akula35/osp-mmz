@@ -44,18 +44,7 @@
             <%}%>
             
             <form action="/potwierdz" method="GET">
-                Twoj punkt pomocy: <select name="punkt">
-                    <option value="Warszawska">Warszawska</option>
-                    <option value="Pilsudzkiego">Piłsudzkiego</option>
-                </select><br/>
-                Czy brakuje w twoim punkcie:<br/>
-                <input class="check" type="checkbox" name="mleko">Mleka?
-                <input class="check" type="checkbox" name="kasza">Kaszy?<br/>
-                <input class="check" type="checkbox" name="maka">Mąki?
-                <input class="check" type="checkbox" name="olej">Oleju?<br/>
-                <input class="check" type="checkbox" name="cukier">Cukru?
-                <input class="check" type="checkbox" name="konserwy">Konserw?<br/>
-                Uwaga. Jeżeli widziałeś na poprzedniej stronie, że brakuje jakiegoś produktu w twoim punkcie nie musisz go zaznaczać<br/>
+                <input type="hidden" name="numer" value="<%= numer%>">
                 <button type="submit">Potwierdź</button>
             </form>
         </article>

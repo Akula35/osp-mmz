@@ -1,1 +1,1 @@
-[{"nazwa":"Warszawska","mleko":false,"kasza":true,"maka":false,"olej":false,"cukier":false,"konserwy":false},{"nazwa":"Pilsudzkiego","mleko":false,"kasza":true,"maka":false,"olej":true,"cukier":false,"konserwy":true}]
+[{"nazwa":"Warszawska","mleko":"tak","kasza":"tak","maka":"tak","olej":"tak","cukier":"tak","konserwy":"tak"},{"nazwa":"Pilsudzkiego","mleko":"tak","kasza":"tak","maka":"tak","olej":"tak","cukier":"tak","konserwy":"tak"}]

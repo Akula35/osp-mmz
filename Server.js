@@ -143,6 +143,17 @@ app.get('/wydaj', (req, resp) => {
     }
 })
 app.get('/potwierdz', (req, resp) => {
+    const months = ["Styczen", "Luty", "Marzec", "Kwiecien", "Maj", "Czerwiec", "Lipiec", "Sierpien", "Wrzesien", "Pazdziernik", "Listopad", "Grudzien"];
+    var d = new Date();
+    var dzisT = d.getFullYear()*10000+d.getMonth()*100+d.getDate();
+    var dzis = d.getDate() + " " +months[d.getMonth()] + " " + d.getFullYear();
+    var punkts;
+    try{
+        punkts = JSON.parse(fs.readFileSync("./punkty.json"));
+    }catch(e){}
+    resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts});
+})
+app.get('/zapasy', (req, resp) => {
     var punkts;
     try{
         punkts = JSON.parse(fs.readFileSync("./punkty.json"));
@@ -150,25 +161,37 @@ app.get('/potwierdz', (req, resp) => {
     for(var i=0; i<punkts.length; i++){
         if(punkts[i].nazwa == req.query.punkt){
             if(req.query.mleko){
-                punkts[i].mleko = true;
+                punkts[i].mleko = "tak";
+            }else{
+                punkts[i].mleko = "nie";
             }
             if(req.query.kasza){
-                punkts[i].kasza = true;
+                punkts[i].kasza = "tak";
+            }else{
+                punkts[i].kasza = "nie";
             }
             if(req.query.maka){
-                punkts[i].maka = true;
+                punkts[i].maka = "tak";
+            }else{
+                punkts[i].maka = "nie";
             }
             if(req.query.olej){
-                punkts[i].olej = true;
+                punkts[i].olej = "tak";
+            }else{
+                punkts[i].olej = "nie";
             }
             if(req.query.cukier){
-                punkts[i].cukier = true;
+                punkts[i].cukier = "tak";
+            }else{
+                punkts[i].cukier = "nie";
             }
             if(req.query.konserwy){
-                punkts[i].konserwy = true;
+                punkts[i].konserwy = "tak";
+            }else{
+                punkts[i].konserwy = "nie";
             }
         }
     }
     fs.writeFileSync('./punkty.json', JSON.stringify(punkts));
-    resp.redirect('/')
+    resp.redirect('/');
 })
