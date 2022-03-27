@@ -47,6 +47,54 @@
                 <button type="submit" name="szukaj" value="on">Szukaj</button>
                 <button type="submit" name="wydaj" value="on">Wydaj</button>
             </form>
+            <h4>Zapasy w magazynach</h4>
+            <table>
+                <tr>
+                    <th>Punkt</th>
+                    <th>Mleko</th>
+                    <th>Kasza</th>
+                    <th>Mąka</th>
+                    <th>Olej</th>
+                    <th>Cukier</th>
+                    <th>Konserwy</th>
+                </tr>
+                <% for(var i=0; i<punkty.length; i++) {%>
+                    <tr>
+                        <td><%= punkty[i].nazwa %></td>
+                        <%if(punkty[i].mleko){%>
+                            <td class="nie">Brakuje</td>
+                        <%}else{%>
+                            <td class="tak">W zapasie</td>
+                        <%}%>
+                        <%if(punkty[i].kasza){%>
+                            <td class="nie">Brakuje</td>
+                        <%}else{%>
+                            <td class="tak">W zapasie</td>
+                        <%}%>
+                        <%if(punkty[i].maka){%>
+                            <td class="nie">Brakuje</td>
+                        <%}else{%>
+                            <td class="tak">W zapasie</td>
+                        <%}%>
+                        <%if(punkty[i].olej){%>
+                            <td class="nie">Brakuje</td>
+                        <%}else{%>
+                            <td class="tak">W zapasie</td>
+                        <%}%>
+                        <%if(punkty[i].cukier){%>
+                            <td class="nie">Brakuje</td>
+                        <%}else{%>
+                            <td class="tak">W zapasie</td>
+                        <%}%>
+                        <%if(punkty[i].konserwy){%>
+                            <td class="nie">Brakuje</td>
+                        <%}else{%>
+                            <td class="tak">W zapasie</td>
+                        <%}%>
+                    </tr>
+                <% } %>
+            </table>
+            <h4>Lista numerów uchodźców</h4>
             <table>
                 <tr>
                     <th>Numer</th>
