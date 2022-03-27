@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pomoc humanitarna</title>
+        <style>
+            body{
+                font-size: 35px;
+            }
+            td{
+                border: 1px solid black;
+            }
+            input.check{
+                width: 40px;
+                height: 40px
+            }
+            input.num{
+                font-size: 35px;
+            }
+            button{
+                font-size: 35px;
+            }
+            select{
+                font-size: 35px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h2>System weryfikacji pomocy humanitarnej dla uchodźców.</h2>
+        </header>
+        <article>
+            <h2>Potwierdź wydanie dla numeru <%= numer %>:</h2>
+            <%if(wydane[0] == 1){%>
+                <h4>Obiadu</h4>
+            <%}%>
+            <%if(wydane[1] == 1){%>
+                <h4>Żywności</h4>
+            <%}%>
+            <%if(wydane[2] == 1){%>
+                <h4>Chemii</h4>
+            <%}%>
+            <%if(wydane[3] == 1){%>
+                <h4>Innych pomocy</h4>
+            <%}%>
+            
+            <form action="/potwierdz" method="GET">
+                Twoj punkt pomocy: <select name="punkt">
+                    <option value="Warszawska">Warszawska</option>
+                    <option value="Pilsudzkiego">Piłsudzkiego</option>
+                </select><br/>
+                Czy brakuje w twoim punkcie:<br/>
+                <input class="check" type="checkbox" name="mleko">Mleka?
+                <input class="check" type="checkbox" name="kasza">Kaszy?<br/>
+                <input class="check" type="checkbox" name="maka">Mąki?
+                <input class="check" type="checkbox" name="olej">Oleju?<br/>
+                <input class="check" type="checkbox" name="cukier">Cukru?
+                <input class="check" type="checkbox" name="konserwy">Konserw?<br/>
+                Uwaga. Jeżeli widziałeś na poprzedniej stronie, że brakuje jakiegoś produktu w twoim punkcie nie musisz go zaznaczać<br/>
+                <button type="submit">Potwierdź</button>
+            </form>
+        </article>
+        <footer>
+           <br/> Autor: OSP Mińsk Mazowiecki, Kamil Wojciechowski
+        </footer>
+    </body>
+</html>
