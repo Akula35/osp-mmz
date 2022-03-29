@@ -14,7 +14,7 @@ app.reports=[];
 async function readTable() {
     await client.connect();
     const collection = client.db("osp").collection("pomoc-humanitarna");
-    collection.find({},{numer: 1, obiad: 1, zywnosc: 1, chemia: 1, inne: 1}).toArray( function(err,result) {
+    collection.find({},{numer: 1, obiad: 1, zywnosc: 1, chemia: 1, inne: 1}).sort({numer: 1}).toArray( function(err,result) {
       if (err) throw err;
       app.result = result;
       var d = new Date();
@@ -104,13 +104,20 @@ app.get('/', async (req, resp) => {
     try{
         punkts = JSON.parse(fs.readFileSync("./punkty.json"));
     }catch(e){}
-    resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: "", raport: app.reports, punkty: punkts});
+    resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: "", raport: app.reports, punkty: punkts, blad: 'flase'});
 })
 app.get('/wydaj', (req, resp) => {
     const months = ["Styczen", "Luty", "Marzec", "Kwiecien", "Maj", "Czerwiec", "Lipiec", "Sierpien", "Wrzesien", "Pazdziernik", "Listopad", "Grudzien"];
     var d = new Date()
     var dzis = d.getDate() + " " +months[d.getMonth()] + " " + d.getFullYear();
     var dzisT = d.getFullYear()*10000+d.getMonth()*100+d.getDate();
+    var punkts;
+    try{
+        punkts = JSON.parse(fs.readFileSync("./punkty.json"));
+    }catch(e){}
+    if(req.query.numer.length != 4){
+        resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts, blad: 'true'});
+    }
     if(req.query.wydaj){
         var wydaj = [0,0,0,0];
         if(req.query.obiad){
@@ -135,11 +142,8 @@ app.get('/wydaj', (req, resp) => {
                 tabelaS.push(app.result[i]);
             }
         }
-        var punkts;
-        try{
-            punkts = JSON.parse(fs.readFileSync("./punkty.json"));
-        }catch(e){}
-        resp.render('index.ejs', {tabela: tabelaS, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts});
+        
+        resp.render('index.ejs', {tabela: tabelaS, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts, blad: 'flase'});
     }
 })
 app.get('/potwierdz', (req, resp) => {
@@ -151,7 +155,7 @@ app.get('/potwierdz', (req, resp) => {
     try{
         punkts = JSON.parse(fs.readFileSync("./punkty.json"));
     }catch(e){}
-    resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts});
+    resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts, blad: 'flase'});
 })
 app.get('/zapasy', (req, resp) => {
     var punkts;
