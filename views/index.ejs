@@ -27,7 +27,10 @@
                 color: white;
             }
             .wczoraj{
-                background-color: orange;
+                background-color: yellow;
+            }
+            .przedwczoraj{
+                background-color: rgb(255, 136, 0);
             }
         </style>
     </head>
@@ -117,30 +120,38 @@
                             <td class="tak">dzisiaj</td>
                         <%}else{if(dataT == tabela[i].obiad+1){%>
                             <td class="wczoraj">wczoraj</td>
+                        <%}else{if(dataT == tabela[i].obiad+2){%>
+                            <td class="przedwczoraj">przedwczoraj</td>
                         <%}else{%>
                             <td class="nie">nie</td>
-                        <%}}%>
+                        <%}}}%>
                         <%if(dataT == tabela[i].zywnosc){%>
                             <td class="tak">dzisiaj</td>
                             <%}else{if(dataT == tabela[i].zywnosc+1){%>
                                 <td class="wczoraj">wczoraj</td>
+                            <%}else{if(dataT == tabela[i].zywnosc+2){%>
+                                <td class="przedwczoraj">przedwczoraj</td>
                             <%}else{%>
                                 <td class="nie">nie</td>
-                            <%}}%>
+                            <%}}}%>
                         <%if(dataT == tabela[i].chemia){%>
                             <td class="tak">dzisiaj</td>
                             <%}else{if(dataT == tabela[i].chemia+1){%>
                                 <td class="wczoraj">wczoraj</td>
+                            <%}else{if(dataT == tabela[i].chemia+2){%>
+                                <td class="przedwczoraj">przedwczoraj</td>
                             <%}else{%>
                                 <td class="nie">nie</td>
-                            <%}}%>
+                            <%}}}%>
                         <%if(dataT == tabela[i].inne){%>
                             <td class="tak">dzisiaj</td>
                             <%}else{if(dataT == tabela[i].inne+1){%>
                                 <td class="wczoraj">wczoraj</td>
+                            <%}else{if(dataT == tabela[i].inne+2){%>
+                                <td class="przedwczoraj">przedwczoraj</td>
                             <%}else{%>
                                 <td class="nie">nie</td>
-                            <%}}%>
+                            <%}}}%>
                     </tr>
                 <% } %>
             </table>

@@ -65,7 +65,7 @@ async function writeTable(num, obi, zyw, che, ine){
     await client.connect();
     const collection = client.db("osp").collection("pomoc-humanitarna");
     collection.updateOne({numer: num},{$set: {obiad: values[0], zywnosc: values[1], chemia: values[2], inne: values[3]}},{upsert: true})
-    collection.find({},{numer: 1, obiad: 1, zywnosc: 1, chemia: 1, inne: 1}).toArray( function(err,result) {
+    collection.find({},{numer: 1, obiad: 1, zywnosc: 1, chemia: 1, inne: 1}).sort({numer: 1}).toArray( function(err,result) {
         if (err) throw err;
         app.result = result;
         console.log(app.result);
