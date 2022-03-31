@@ -14,7 +14,7 @@ app.reports=[];
 async function readTable() {
     await client.connect();
     const collection = client.db("osp").collection("pomoc-humanitarna");
-    collection.find({},{numer: 1, obiad: 1, zywnosc: 1, chemia: 1, inne: 1}).sort({numer: 1}).toArray( function(err,result) {
+    collection.find({},{numer: 1, obiad: 1, zywnosc: 1, chemia: 1, inne: 1, ile: 1}).sort({numer: 1}).toArray( function(err,result) {
       if (err) throw err;
       app.result = result;
       var d = new Date();
@@ -41,13 +41,14 @@ readTable();
 async function writeTable(num, obi, zyw, che, ine){
     var d = new Date();
     var dzisT = d.getFullYear()*10000+d.getMonth()*100+d.getDate();
-    var values = [0,0,0,0]
+    var values = [0,0,0,0,0]
     for(var i=0; i < app.result.length; i++){
         if(app.result[i].numer == num){
             values[0] = app.result[i].obiad;
             values[1] = app.result[i].zywnosc;
             values[2] = app.result[i].chemia;
             values[3] = app.result[i].inne;
+            values[4] = app.result[i].ile;
         }
     }
     if(obi == 1){
@@ -62,10 +63,11 @@ async function writeTable(num, obi, zyw, che, ine){
     if(ine == 1){
         values[3]=dzisT;
     }
+    values[4]++;
     await client.connect();
     const collection = client.db("osp").collection("pomoc-humanitarna");
-    collection.updateOne({numer: num},{$set: {obiad: values[0], zywnosc: values[1], chemia: values[2], inne: values[3]}},{upsert: true})
-    collection.find({},{numer: 1, obiad: 1, zywnosc: 1, chemia: 1, inne: 1}).sort({numer: 1}).toArray( function(err,result) {
+    collection.updateOne({numer: num},{$set: {obiad: values[0], zywnosc: values[1], chemia: values[2], inne: values[3], ile: values[4]}},{upsert: true})
+    collection.find({},{numer: 1, obiad: 1, zywnosc: 1, chemia: 1, inne: 1, ile: 1}).sort({numer: 1}).toArray( function(err,result) {
         if (err) throw err;
         app.result = result;
         console.log(app.result);

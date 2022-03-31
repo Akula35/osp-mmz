@@ -96,7 +96,7 @@
                         <%if(punkty[i].konserwy == "nie"){%>
                             <td><input class="check" type="checkbox" name="konserwy">W zapasie</td>
                         <%}else{%>
-                            <td><input class="check" type="checkbox" name="konserwy" checked>W zapasie</td>>
+                            <td><input class="check" type="checkbox" name="konserwy" checked>W zapasie</td>
                         <%}%>
                             <td><button type="submit" name="punkt" value="<%= punkty[i].nazwa%>">Zaktualizuj</button></td>
                         </form>
@@ -108,7 +108,7 @@
             <table>
                 <tr>
                     <th>Numer</th>
-                    <th>Wydano obiad?</th>
+                    <th>Skorzystano<br/> ile razy</th>
                     <th>Wydano żywność?</th>
                     <th>Wydano chemię?</th>
                     <th>Wydano inne?</th>
@@ -116,15 +116,7 @@
                 <% for(var i=0; i<tabela.length; i++) {%>
                     <tr>
                         <td>UA/<%= tabela[i].numer %>/2022</td>
-                        <%if(dataT == tabela[i].obiad){%>
-                            <td class="tak">dzisiaj</td>
-                        <%}else{if(dataT == tabela[i].obiad+1){%>
-                            <td class="wczoraj">wczoraj</td>
-                        <%}else{if(dataT == tabela[i].obiad+2){%>
-                            <td class="przedwczoraj">przedwczoraj</td>
-                        <%}else{%>
-                            <td class="nie">nie</td>
-                        <%}}}%>
+                        <td><%= tabela[i].ile %></td>
                         <%if(dataT == tabela[i].zywnosc){%>
                             <td class="tak">dzisiaj</td>
                             <%}else{if(dataT == tabela[i].zywnosc+1){%>
