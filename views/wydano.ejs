@@ -31,15 +31,24 @@
         <article>
             <h2>Potwierdź wydanie dla numeru <%= numer %>:</h2>
             <%if(wydane[0] == 1){%>
-                <h4>Obiadu</h4>
-            <%}%>
-            <%if(wydane[1] == 1){%>
                 <h4>Żywności</h4>
             <%}%>
+            <%if(wydane[1] == 1){%>
+                <h4>Mleka</h4>
+            <%}%>
             <%if(wydane[2] == 1){%>
-                <h4>Chemii</h4>
+                <h4>Oleju</h4>
             <%}%>
             <%if(wydane[3] == 1){%>
+                <h4>Mąki</h4>
+            <%}%>
+            <%if(wydane[4] == 1){%>
+                <h4>Cukru</h4>
+            <%}%>
+            <%if(wydane[5] == 1){%>
+                <h4>Chemii</h4>
+            <%}%>
+            <%if(wydane[6] == 1){%>
                 <h4>Innych pomocy</h4>
             <%}%>
             
