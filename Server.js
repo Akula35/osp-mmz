@@ -43,15 +43,48 @@ readTable();
 
 async function writeTable(num, zyw, mle, ole, mak, cuk, che, ine){
     values = [0,0,0,0,0,0,0,0];
+    var d = new Date();
+    var dzisT = d.getDay();
+    if (dzisT %2 == 0){
+        dzisT = dzisT - 1;
+    }
     for(var i=0; i < app.result.length; i++){
         if(app.result[i].numer == num){
+            if(app.result[i].zywnosc < zyw){
                 values[0] = app.result[i].zywnosc + zyw;
+            }else{
+                values[0] = app.result[i].zywnosc
+            }
+            if(app.result[i].mleko < mle){
                 values[1] = app.result[i].mleko + mle;
+            }else{
+                values[1] = app.result[i].mleko
+            }
+            if(app.result[i].olej < ole){
                 values[2] = app.result[i].olej + ole;
+            }else{
+                values[2] = app.result[i].olej
+            }
+            if(app.result[i].maka < mak){
                 values[3] = app.result[i].maka + mak;
+            }else{
+                values[3] = app.result[i].maka
+            }
+            if(app.result[i].cukier < cuk){
                 values[4] = app.result[i].cukier + cuk;
+            }else{
+                values[4] = app.result[i].cukier
+            }
+            if(app.result[i].chemia < che){
                 values[5] = app.result[i].chemia + che;
+            }else{
+                values[5] = app.result[i].chemia
+            }
+            if(app.result[i].inne < ine){
                 values[6] = app.result[i].inne + ine;
+            }else{
+                values[6] = app.result[i].inne
+            }
                 values[7] = app.result[i].ile + 1;
         }
     }
@@ -61,11 +94,6 @@ async function writeTable(num, zyw, mle, ole, mak, cuk, che, ine){
     collection.find({},{numer: 1, zywnosc: 1, mleko: 1, olej: 1, maka: 1, cukier: 1, chemia: 1, inne: 1, ile: 1}).sort({numer: 1}).toArray( function(err,result) {
         if (err) throw err;
         app.result = result;
-        var d = new Date();
-        var dzisT = d.getDay();
-        if (dzisT %2 == 0){
-            dzisT = dzisT - 1;
-        }
         app.reports = [0,0,0]
         for(var i=0; i < app.result.length; i++){
           if(dzisT <= app.result[i].zywnosc){
