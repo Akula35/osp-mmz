@@ -30,31 +30,56 @@
         </header>
         <article>
             <h2>Potwierdź wydanie dla numeru <%= numer %>:</h2>
-            <%if(wydane[0] == 1){%>
+            <%if(wydane[0] >= 1){%>
                 <h4>Żywności</h4>
             <%}%>
-            <%if(wydane[1] == 1){%>
-                <h4>Mleka</h4>
+            <%if(wydane[1] >= 1){%>
+                <h5>Mleka</h5>
             <%}%>
-            <%if(wydane[2] == 1){%>
-                <h4>Oleju</h4>
+            <%if(wydane[2] >= 1){%>
+                <h5>Oleju</h5>
             <%}%>
-            <%if(wydane[3] == 1){%>
-                <h4>Mąki</h4>
+            <%if(wydane[3] >= 1){%>
+                <h5>Mąki</h5>
             <%}%>
-            <%if(wydane[4] == 1){%>
-                <h4>Cukru</h4>
+            <%if(wydane[4] >= 1){%>
+                <h5>Cukru</h5>
             <%}%>
-            <%if(wydane[5] == 1){%>
+            <%if(wydane[5] >= 1){%>
                 <h4>Chemii</h4>
             <%}%>
-            <%if(wydane[6] == 1){%>
+            <%if(wydane[6] >= 1){%>
                 <h4>Innych pomocy</h4>
             <%}%>
-            
+            <form action="/wydaj" method="GET">
+                Następny numer: <input class="num" type="text" name="numer" value="<%= numer%>"><br/>
+                Należy podać pełny numer, np. 0035, 0007, 0492<br/>
+                <%if(wydane[0] >= 1){%>
+                    <input type="hidden" name="zywnosc" value="on">
+                <%}%>
+                <%if(wydane[1] >= 1){%>
+                    <input type="hidden" name="mleko" value="on">
+                <%}%>
+                <%if(wydane[2] >= 1){%>
+                    <input type="hidden" name="olej" value="on">
+                <%}%>
+                <%if(wydane[3] >= 1){%>
+                    <input type="hidden" name="maka" value="on">
+                <%}%>
+                <%if(wydane[4] >= 1){%>
+                    <input type="hidden" name="cukier" value="on">
+                <%}%>
+                <%if(wydane[5] >= 1){%>
+                    <input type="hidden" name="chemia" value="on">
+                <%}%>
+                <%if(wydane[6] >= 1){%>
+                    <input type="hidden" name="inne" value="on">
+                <%}%>
+                <button type="submit" name="wydaj" value="on">Wydaj następny</button>
+            </form>
             <form action="/potwierdz" method="GET">
-                <input type="hidden" name="numer" value="<%= numer%>">
-                <button type="submit">Potwierdź</button>
+                <input type="hidden" name="numer" value="<%= numer%>"><br/>
+                <button type="submit">Zakończ wydawanie</button>
             </form>
         </article>
         <footer>

@@ -16,6 +16,7 @@
             input.num{
                 font-size: 35px;
             }
+
             button{
                 font-size: 35px;
             }
@@ -53,59 +54,12 @@
                 <input class="check" type="checkbox" name="olej">Wydać olej?
                 <input class="check" type="checkbox" name="maka">Wydać mąke?
                 <input class="check" type="checkbox" name="cukier">Wydać cukier?<br/><br/>
+                Dodatkowe wyniki po szukanym numerze
+                <input class="num" type="number" name="dlugosc" value="<%= dlugosc%>" min="0" max="10"><br/>
+                (0 wyświetli tylko szukany numer)<br/>
                 <button type="submit" name="szukaj" value="on">Szukaj</button>
                 <button type="submit" name="wydaj" value="on">Wydaj</button>
             </form>
-            <h4>Zapasy w magazynach</h4>
-            <table>
-                <tr>
-                    <th>Punkt</th>
-                    <th>Mleko</th>
-                    <th>Kasza</th>
-                    <th>Mąka</th>
-                    <th>Olej</th>
-                    <th>Cukier</th>
-                    <th>Konserwy</th>
-                </tr>
-                <% for(var i=0; i<punkty.length; i++) {%>
-                    <tr>
-                        <form action="/zapasy" method="GET">
-                        <td><%= punkty[i].nazwa %></td>
-                        <%if(punkty[i].mleko == "nie"){%>
-                            <td><input class="check" type="checkbox" name="mleko">W zapasie</td>
-                        <%}else{%>
-                            <td><input class="check" type="checkbox" name="mleko" checked>W zapasie</td>
-                        <%}%>
-                        <%if(punkty[i].kasza == "nie"){%>
-                            <td><input class="check" type="checkbox" name="kasza">W zapasie</td>
-                        <%}else{%>
-                            <td><input class="check" type="checkbox" name="kasza" checked>W zapasie</td>
-                        <%}%>
-                        <%if(punkty[i].maka == "nie"){%>
-                            <td><input class="check" type="checkbox" name="maka">W zapasie</td>
-                        <%}else{%>
-                            <td><input class="check" type="checkbox" name="maka" checked>W zapasie</td>
-                        <%}%>
-                        <%if(punkty[i].olej == "nie"){%>
-                            <td><input class="check" type="checkbox" name="olej">W zapasie</td>
-                        <%}else{%>
-                            <td><input class="check" type="checkbox" name="olej" checked>W zapasie</td>
-                        <%}%>
-                        <%if(punkty[i].cukier == "nie"){%>
-                            <td><input class="check" type="checkbox" name="cukier">W zapasie</td>
-                        <%}else{%>
-                            <td><input class="check" type="checkbox" name="cukier" checked>W zapasie</td>
-                        <%}%>
-                        <%if(punkty[i].konserwy == "nie"){%>
-                            <td><input class="check" type="checkbox" name="konserwy">W zapasie</td>
-                        <%}else{%>
-                            <td><input class="check" type="checkbox" name="konserwy" checked>W zapasie</td>
-                        <%}%>
-                            <td><button type="submit" name="punkt" value="<%= punkty[i].nazwa%>">Zaktualizuj</button></td>
-                        </form>
-                    </tr>
-                <% } %>
-            </table>
             
             <h4>Lista numerów uchodźców</h4>
             <table>
@@ -129,10 +83,10 @@
                                 pt,    
                             <%}%>
                             <%if(tabela[i].zywnosc % 4 >= 2){%>
-                                śr,    
+                                     
                             <%}%>
                             <%if(tabela[i].zywnosc % 4 % 2 >= 1){%>
-                                pon    
+                                Wydano    
                             <%}%>
                             </td>
                         <%if(tabela[i].chemia >= dataT){%>
@@ -144,10 +98,10 @@
                                 pt,    
                             <%}%>
                             <%if(tabela[i].chemia % 4 >= 2){%>
-                                śr,    
+                                     
                             <%}%>
                             <%if(tabela[i].chemia % 4 % 2 >= 1){%>
-                                pon    
+                                Wydano    
                             <%}%>
                             </td>
                         <%if(tabela[i].inne >= dataT){%>
@@ -159,94 +113,93 @@
                                 pt,    
                             <%}%>
                             <%if(tabela[i].inne % 4 >= 2){%>
-                                śr,    
+                                     
                             <%}%>
                             <%if(tabela[i].inne % 4 % 2 >= 1){%>
-                                pon    
+                                Wydano    
                             <%}%>
                             </td>
                     </tr>
+                    <%if (tabela.length < 12){%>
+                        <tr>
+                            <th>Szczegóły</th>
+                            <%if(tabela[i].mleko >= dataT){%>
+                                <td class="tak"> Mleko:
+                            <%}else{%>
+                                <td class="nie"> Mleko:
+                            <%}%>
+                                <%if(tabela[i].mleko >= 4){%>
+                                    pt,    
+                                <%}%>
+                                <%if(tabela[i].mleko % 4 >= 2){%>
+                                         
+                                <%}%>
+                                <%if(tabela[i].mleko % 4 % 2 >= 1){%>
+                                    Wydano    
+                                <%}%>
+                                </td>
+                            <%if(tabela[i].olej >= dataT){%>
+                                <td class="tak"> Olej:
+                            <%}else{%>
+                                <td class="nie"> Olej:
+                            <%}%>
+                                <%if(tabela[i].olej >= 4){%>
+                                    pt,    
+                                <%}%>
+                                <%if(tabela[i].olej % 4 >= 2){%>
+                                         
+                                <%}%>
+                                <%if(tabela[i].olej % 4 % 2 >= 1){%>
+                                    Wydano    
+                                <%}%>
+                                </td>
+                            <%if(tabela[i].maka >= dataT){%>
+                                <td class="tak"> Mąka:
+                            <%}else{%>
+                                <td class="nie"> Mąka:
+                            <%}%>
+                                <%if(tabela[i].maka >= 4){%>
+                                    pt,    
+                                <%}%>
+                                <%if(tabela[i].maka % 4 >= 2){%>
+                                         
+                                <%}%>
+                                <%if(tabela[i].maka % 4 % 2 >= 1){%>
+                                    Wydano    
+                                <%}%>
+                                </td>
+                            <%if(tabela[i].cukier >= dataT){%>
+                                <td class="tak"> Cukier: 
+                            <%}else{%>
+                                <td class="nie"> Cukier: 
+                            <%}%>
+                                <%if(tabela[i].cukier >= 4){%>
+                                    pt,    
+                                <%}%>
+                                <%if(tabela[i].cukier % 4 >= 2){%>
+                                         
+                                <%}%>
+                                <%if(tabela[i].cukier % 4 % 2 >= 1){%>
+                                    Wydano    
+                                <%}%>
+                                </td>
+                        </tr>
+                    <%}%>
                 <% } %>
             </table>
-            <% if(tabela.length == 1){ %>
-                Szczegoly wydania żywności:
-                <table>
-                    <tr>
-                        <th></th>
-                        <th>Mleko</th>
-                        <th>Olej</th>
-                        <th>Mąka</th>
-                        <th>Cukier</th>
-                    </tr>
-                    <tr>
-                        <th>Kiedy</th>
-                            <%if(tabela[0].mleko >= dataT){%>
-                                <td class="tak">
-                            <%}else{%>
-                                <td class="nie">
-                            <%}%>
-                                <%if(tabela[0].mleko >= 4){%>
-                                    pt,    
-                                <%}%>
-                                <%if(tabela[0].mleko % 4 >= 2){%>
-                                    śr,    
-                                <%}%>
-                                <%if(tabela[0].mleko % 4 % 2 >= 1){%>
-                                    pon    
-                                <%}%>
-                                </td>
-                            <%if(tabela[0].olej >= dataT){%>
-                                <td class="tak">
-                            <%}else{%>
-                                <td class="nie">
-                            <%}%>
-                                <%if(tabela[0].olej >= 4){%>
-                                    pt,    
-                                <%}%>
-                                <%if(tabela[0].olej % 4 >= 2){%>
-                                    śr,    
-                                <%}%>
-                                <%if(tabela[0].olej % 4 % 2 >= 1){%>
-                                    pon    
-                                <%}%>
-                                </td>
-                            <%if(tabela[0].maka >= dataT){%>
-                                <td class="tak">
-                            <%}else{%>
-                                <td class="nie">
-                            <%}%>
-                                <%if(tabela[0].maka >= 4){%>
-                                    pt,    
-                                <%}%>
-                                <%if(tabela[0].maka % 4 >= 2){%>
-                                    śr,    
-                                <%}%>
-                                <%if(tabela[0].maka % 4 % 2 >= 1){%>
-                                    pon    
-                                <%}%>
-                                </td>
-                            <%if(tabela[0].cukier >= dataT){%>
-                                <td class="tak">
-                            <%}else{%>
-                                <td class="nie">
-                            <%}%>
-                                <%if(tabela[0].cukier >= 4){%>
-                                    pt,    
-                                <%}%>
-                                <%if(tabela[0].cukier % 4 >= 2){%>
-                                    śr,    
-                                <%}%>
-                                <%if(tabela[0].cukier % 4 % 2 >= 1){%>
-                                    pon    
-                                <%}%>
-                                </td>
-                    </tr>
-                </table>
-            <%}%>
             <div><h4>Podsumowanie</h4>
-                Wydana łącznie żywność: <%= raport[0]%><br/>
-                Wydana łącznie chemia: <%= raport[1]%><br/>
-                Wydane łącznie inne pomoce: <%= raport[2]%><br/>
+                <ul>
+                    <li>Wydana łącznie żywność: <%= raport[0]%>
+                        <ul>
+                            <li>Wydano łącznie mleko: <%= raport[1]%></li>
+                            <li>Wydano łącznie olej: <%= raport[2]%></li>
+                            <li>Wydano łącznie mąka: <%= raport[3]%></li>
+                            <li>Wydano łącznie cukier: <%= raport[4]%></li>
+                        </ul>
+                    </li>
+                    <li>Wydana łącznie chemia: <%= raport[5]%></li>
+                    <li>Wydane łącznie inne pomoce: <%= raport[6]%></li>
+                </ul>
             </div>
         </article>
         <footer>

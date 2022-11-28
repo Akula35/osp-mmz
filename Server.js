@@ -12,9 +12,10 @@ if(port == null || port == ""){
 }
 app.result=[];
 app.reports=[];
+client.connect()
 
 async function readTable() {
-    await client.connect();
+//    await client.connect();
     const collection = client.db("osp").collection("pomoc-humanitarna");
     collection.find({},{numer: 1, zywnosc: 1, mleko: 1, olej: 1, maka: 1, cukier: 1, chemia: 1, inne: 1, ile: 1}).sort({numer: 1}).toArray( function(err,result) {
       if (err) throw err;
@@ -24,19 +25,31 @@ async function readTable() {
       if (dzisT %2 == 0){
         dzisT = dzisT - 1;
     }
-      app.reports = [0,0,0]
+      app.reports = [0,0,0,0,0,0,0]
       for(var i=0; i < app.result.length; i++){
         if(dzisT <= app.result[i].zywnosc){
             app.reports[0]++;
         }
-        if(dzisT <= app.result[i].chemia){
+        if(dzisT <= app.result[i].mleko){
             app.reports[1]++;
         }
-        if(dzisT <= app.result[i].inne){
+        if(dzisT <= app.result[i].olej){
             app.reports[2]++;
         }
+        if(dzisT <= app.result[i].maka){
+            app.reports[3]++;
+        }
+        if(dzisT <= app.result[i].cukier){
+            app.reports[4]++;
+        }
+        if(dzisT <= app.result[i].chemia){
+            app.reports[5]++;
+        }
+        if(dzisT <= app.result[i].inne){
+            app.reports[6]++;
+        }
     }
-      client.close();
+      // client.close();
   })
 }
 readTable();
@@ -45,7 +58,7 @@ async function writeTable(num, zyw, mle, ole, mak, cuk, che, ine){
     values = [0,0,0,0,0,0,0,0];
     var d = new Date();
     var dzisT = d.getDay();
-    if (dzisT %2 == 0){
+    if (dzisT > 1){
         dzisT = dzisT - 1;
     }
     for(var i=0; i < app.result.length; i++){
@@ -88,25 +101,37 @@ async function writeTable(num, zyw, mle, ole, mak, cuk, che, ine){
                 values[7] = app.result[i].ile + 1;
         }
     }
-    await client.connect();
+    // await client.connect();
     const collection = client.db("osp").collection("pomoc-humanitarna");
     collection.updateOne({numer: num},{$set: {zywnosc: values[0], mleko: values[1], olej: values[2], maka: values[3], cukier: values[4], chemia: values[5], inne: values[6], ile: values[7]}},{upsert: true})
     collection.find({},{numer: 1, zywnosc: 1, mleko: 1, olej: 1, maka: 1, cukier: 1, chemia: 1, inne: 1, ile: 1}).sort({numer: 1}).toArray( function(err,result) {
         if (err) throw err;
         app.result = result;
-        app.reports = [0,0,0]
+        app.reports = [0,0,0,0,0,0,0]
         for(var i=0; i < app.result.length; i++){
           if(dzisT <= app.result[i].zywnosc){
               app.reports[0]++;
           }
-          if(dzisT <= app.result[i].chemia){
+          if(dzisT <= app.result[i].mleko){
               app.reports[1]++;
           }
-          if(dzisT <= app.result[i].inne){
+          if(dzisT <= app.result[i].olej){
               app.reports[2]++;
           }
+          if(dzisT <= app.result[i].maka){
+              app.reports[3]++;
+          }
+          if(dzisT <= app.result[i].cukier){
+              app.reports[4]++;
+          }
+          if(dzisT <= app.result[i].chemia){
+              app.reports[5]++;
+          }
+          if(dzisT <= app.result[i].inne){
+              app.reports[6]++;
+          }
       }
-        client.close();
+        // client.close();
     })
 }
 
@@ -120,7 +145,7 @@ app.get('/', async (req, resp) => {
     const months = ["Styczen", "Luty", "Marzec", "Kwiecien", "Maj", "Czerwiec", "Lipiec", "Sierpien", "Wrzesien", "Pazdziernik", "Listopad", "Grudzien"];
     var d = new Date();
     var dzisT = d.getDay();
-    if (dzisT %2 == 0){
+    if (dzisT > 1){
         dzisT = dzisT - 1;
     }
     var dzis = d.getDate() + " " +months[d.getMonth()] + " " + d.getFullYear();
@@ -128,7 +153,7 @@ app.get('/', async (req, resp) => {
     try{
         punkts = JSON.parse(fs.readFileSync("./punkty.json"));
     }catch(e){}
-    resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: "", raport: app.reports, punkty: punkts, blad: 'flase'});
+    resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: "", raport: app.reports, punkty: punkts, blad: 'flase', dlugosc: 5});
 })
 
 app.get('/wydaj', (req, resp) => {
@@ -136,7 +161,7 @@ app.get('/wydaj', (req, resp) => {
     var d = new Date()
     var dzis = d.getDate() + " " +months[d.getMonth()] + " " + d.getFullYear();
     var dzisT = d.getDay();
-    if (dzisT %2 == 0){
+    if (dzisT > 1){
         dzisT = dzisT - 1;
     }
     var punkts;
@@ -144,8 +169,8 @@ app.get('/wydaj', (req, resp) => {
         punkts = JSON.parse(fs.readFileSync("./punkty.json"));
     }catch(e){}
     if(req.query.numer.length != 4){
-        resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts, blad: 'true'});
-    }
+        resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts, blad: 'true', dlugosc: 5});
+    }else{
     if(req.query.wydaj){
         var wydaj = [0,0,0,0,0,0,0];
         if(req.query.zywnosc){
@@ -177,10 +202,15 @@ app.get('/wydaj', (req, resp) => {
         for(var i=0; i < app.result.length; i++){
             if(app.result[i].numer.endsWith(req.query.numer)){
                 tabelaS.push(app.result[i]);
+                for(var j=1; j <= req.query.dlugosc; j++){
+                    if(i+j < app.result.length){
+                        tabelaS.push(app.result[i+j]);
+                    }
+                }
             }
         }
-        
-        resp.render('index.ejs', {tabela: tabelaS, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts, blad: 'flase'});
+        resp.render('index.ejs', {tabela: tabelaS, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts, blad: 'flase', dlugosc: req.query.dlugosc});
+    }
     }
 })
 
@@ -188,7 +218,7 @@ app.get('/potwierdz', (req, resp) => {
     const months = ["Styczen", "Luty", "Marzec", "Kwiecien", "Maj", "Czerwiec", "Lipiec", "Sierpien", "Wrzesien", "Pazdziernik", "Listopad", "Grudzien"];
     var d = new Date();
     var dzisT = d.getDay();
-    if (dzisT %2 == 0){
+    if (dzisT > 1){
         dzisT = dzisT - 1;
     }
     var dzis = d.getDate() + " " +months[d.getMonth()] + " " + d.getFullYear();
@@ -196,7 +226,7 @@ app.get('/potwierdz', (req, resp) => {
     try{
         punkts = JSON.parse(fs.readFileSync("./punkty.json"));
     }catch(e){}
-    resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts, blad: 'flase'});
+    resp.render('index.ejs', {tabela: app.result, data: dzis, dataT: dzisT, numer: req.query.numer, raport: app.reports, punkty: punkts, blad: 'flase', dlugosc: 5});
 })
 
 app.get('/zapasy', (req, resp) => {
@@ -244,11 +274,55 @@ app.get('/zapasy', (req, resp) => {
 
 async function resetTable(){
     values = [0,0,0,0,0,0,0];
-    await client.connect();
+    var d = new Date();
+    var dzisT = d.getDay();
+    if (dzisT %2 == 1 && dzisT > 1){
+        dzisT = dzisT - 1;
+    }
+    // await client.connect();
     const collection = client.db("osp").collection("pomoc-humanitarna");
-    await collection.updateMany({},{$set: {zywnosc: values[0], mleko: values[1], olej: values[2], maka: values[3], cukier: values[4], chemia: values[5], inne: values[6]}},{upsert: true})
-    await client.close();
+    collection.updateMany({},{$set: {zywnosc: values[0], mleko: values[1], olej: values[2], maka: values[3], cukier: values[4], chemia: values[5], inne: values[6]}},{upsert: true});
+    collection.find({},{numer: 1, zywnosc: 1, mleko: 1, olej: 1, maka: 1, cukier: 1, chemia: 1, inne: 1, ile: 1}).sort({numer: 1}).toArray( function(err,result) {
+        if (err) throw err;
+        app.result = result;
+        app.reports = [0,0,0,0,0,0,0]
+      for(var i=0; i < app.result.length; i++){
+        if(dzisT <= app.result[i].zywnosc){
+            app.reports[0]++;
+        }
+        if(dzisT <= app.result[i].mleko){
+            app.reports[1]++;
+        }
+        if(dzisT <= app.result[i].olej){
+            app.reports[2]++;
+        }
+        if(dzisT <= app.result[i].maka){
+            app.reports[3]++;
+        }
+        if(dzisT <= app.result[i].cukier){
+            app.reports[4]++;
+        }
+        if(dzisT <= app.result[i].chemia){
+            app.reports[5]++;
+        }
+        if(dzisT <= app.result[i].inne){
+            app.reports[6]++;
+        }
+    }
+        console.log("Zakonczono reset");
+        // client.close();
+    })
 }
+
+function reset(){
+    var d = new Date();
+    var dzisT = d.getDay();
+    if (dzisT == 1){
+        resetTable();
+        readTable();
+    }
+}
+//reset()
 
 app.get('/reset', (req, resp) => {
     resetTable();
